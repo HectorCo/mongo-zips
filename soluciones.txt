@@ -1,0 +1,14 @@
+ 
+- Obtener la población total de las ciudades cuyo nombre empieza por A o B
+
+db.zips.aggregate(
+        [
+
+        {$match: {$or:[{city:/^A/}, {city:/^B/ }]}},   
+        {$group:
+        { _id:{city:"$city"},
+        poblacion: {$sum:'$pop'}
+        }
+        }
+        ]
+        )
