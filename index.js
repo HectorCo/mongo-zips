@@ -135,6 +135,37 @@ db.zips.aggregate([
 posts de un blog. (tip: usar la cláusula unwind para crear un documento por cada comentario de cada
 post (que inicialmente estarían en un array dentro de el post correspondiente). 
 
+db.posts.aggregate([{  
+$unwind: "$comments"  
+}, {  
+$group: {  
+_id: "$comments.author",  
+count: {  
+$sum: 1  
+}  
+}  
+}, {  
+$sort: {  
+"count": 1  
+}  
+}, {  
+$group: {  
+_id: null,  
+name_mas: {  
+$last: "$_id"  
+},  
+number_mas: {  
+$last: "$count"  
+},  
+name_menos: {  
+$first: "$_id"  
+},  
+number_menos: {  
+$first: "$count"  
+}  
+}  
+}])
+
 
 
 
