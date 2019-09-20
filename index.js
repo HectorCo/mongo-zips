@@ -22,7 +22,13 @@ b.sesiones.aggregate(
 
 db.zips.aggregate([
   { $match: { $or: [{ city: /^A/ }, { city: /^B/ }] } },
-  { $group: { _id: { city: "$city" }, poblacion: { $sum: "$pop" } } }
+  { $group: { _id: { city: "$city" }, poblacion: { $sum: "$pop" } } },
+  {
+    $group: {
+      _id: null,
+      total: { $sum: "$poblacion" }
+    }
+  }
 ]);
 
 db.zips.aggregate([
@@ -63,26 +69,23 @@ db.zips.aggregate([
   }
 ])
 
+
+
 /* 
-
-
-
-
 
 
 - Obtener la población total de las ciudades cuyo nombre empieza por A o B
 
- db.zips.aggregate(
-        [
-
-        {$match: {$or:[{city:/^A/}, {city:/^B/ }]}},   
-        {$group:
-        { _id:{city:"$city"},
-        poblacion: {$sum:'$pop'}
-        }
-        }
-        ]
-        )
+db.zips.aggregate([
+  { $match: { $or: [{ city: /^A/ }, { city: /^B/ }] } },
+  { $group: { _id: { city: "$city" }, poblacion: { $sum: "$pop" } } },
+  {
+    $group: {
+      _id: null,
+      total: { $sum: "$poblacion" }
+    }
+  }
+]);
 
 
 
@@ -128,24 +131,6 @@ posts de un blog. (tip: usar la cláusula unwind para crear un documento por cad
 post (que inicialmente estarían en un array dentro de el post correspondiente). 
 
 
-
- {  
-$match: {  
-"poblacion": {  
-$gt: 25000  
-}  
-}  
-}
-
-
-{  
-$group: {  
-_id: null,  
-avg: {  
-$avg: "$sum_pop"  
-}  
-}  
-},
 
 
 */
