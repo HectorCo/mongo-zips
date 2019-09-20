@@ -66,6 +66,11 @@ db.zips.aggregate([
       _id: null,
       media: { $avg: "$poblacion" }
     }
+  },
+  {
+    $project: {
+      redondeado: { $round:[ "$media", 0] }
+    }
   }
 ])
 
